@@ -77,7 +77,11 @@ def RunSettingsPrompt(sm:SettingsManager):
             sm.settings["user-defined"][key] = value
         elif(choice == "4"):
             key = input("Enter key to delete: ")
-            del sm.settings["user-defined"][key]
+            a = input(f"Are you sure you want to delete {key}? (y/n) ")
+            if(a == "y"):
+                del sm.settings["user-defined"][key]
+            else:
+                print("Deletion cancelled.")
         elif(choice == "5"):
             url = input("Enter URL to load settings from: ")
             sm.load_settings_from_url(url)
