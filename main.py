@@ -1,5 +1,4 @@
 from manager import PasswordManager
-import time
 import asyncio
 import sys
 
