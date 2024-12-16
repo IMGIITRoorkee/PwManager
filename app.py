@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-from flask import jsonify
 
 from manager import PasswordManager
 
