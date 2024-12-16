@@ -39,5 +39,4 @@ class PasswordManager:
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
-    def get_all_password(self):
-        return self.password_dict
+

@@ -16,9 +16,7 @@ def main():
           3. Create a new password file
           4. Load an existing password file
           5. Add a password
-          6. Get a password
-          7. Get all passwords
-          8. List all saved Sites 
+          6. Get a password 
           q. Quit
           """)
     
@@ -43,21 +41,7 @@ def main():
             pm.add_password(site, password)
         elif choice == '6':
             site = input("Enter site: ").strip()
-            print(f"Password for {site}: {pm.get_password(site)}")
-        elif choice == '7':
-            pass_dict = pm.get_all_password()
-            for k,v in pass_dict.items():
-                print(f"Site: {k}, Password: {v}")
-        elif choice == '8':
-            pass_dict = pm.get_all_password()
-            if not pass_dict:
-                print("No Passwords saved!")
-            else:
-                print("All saved sites: ")
-                i = 1
-                for k in pass_dict.keys():
-                    print(f"{i}: {k}") 
-                    i+=1 
+            print(f"Password for {site}: {pm.get_password(site)}") 
         elif choice == 'q':
             done = True
             print("Goodbye!")
