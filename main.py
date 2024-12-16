@@ -18,7 +18,6 @@ def main():
           5. Add a password
           6. Get a password
           7. Get all passwords
-          8. List all saved Sites 
           q. Quit
           """)
     
@@ -48,16 +47,6 @@ def main():
             pass_dict = pm.get_all_password()
             for k,v in pass_dict.items():
                 print(f"Site: {k}, Password: {v}")
-        elif choice == '8':
-            pass_dict = pm.get_all_password()
-            if not pass_dict:
-                print("No Passwords saved!")
-            else:
-                print("All saved sites: ")
-                i = 1
-                for k in pass_dict.keys():
-                    print(f"{i}: {k}") 
-                    i+=1 
         elif choice == 'q':
             done = True
             print("Goodbye!")
