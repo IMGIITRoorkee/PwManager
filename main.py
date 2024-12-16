@@ -37,6 +37,13 @@ def main():
             pm.load_password_file(path)
         elif choice == '5':
             site = input("Enter site: ").strip()
+            # Password conditions
+            print("Password must be at least 8 characters long.")
+            print("Password must contain at least one lowercase letter.")
+            print("Password must contain at least one uppercase letter.")
+            print("Password must contain at least one digit.")
+            print("Password must contain at least one special character.")
+            
             password = input("Enter password: ").strip()
             pm.add_password(site, password)
         elif choice == '6':
