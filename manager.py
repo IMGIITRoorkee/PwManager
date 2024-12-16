@@ -39,3 +39,9 @@ class PasswordManager:
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
+    
+    # to be implemented
+    def check_password(self, site, old_pass):
+        pass
+    def update_password(self, site, new_pass):
+        pass
