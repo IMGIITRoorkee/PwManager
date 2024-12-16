@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-from cryptography.fernet import Fernet
-import json
-=======
 import time
 from datetime import datetime,timedelta
 
 from cryptography.fernet import Fernet
->>>>>>> 31076f2 (Added key rotation and key expiration at a basic level)
 
 class PasswordManager:
 
