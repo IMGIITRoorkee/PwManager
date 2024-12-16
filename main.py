@@ -1,5 +1,23 @@
 from manager import PasswordManager
 
+def check_site():
+    while(True):
+        site = input("Enter site: ").strip()
+        if(site == ""):
+            print("Please enter a valid site.")
+            continue
+        break
+    return site
+
+def check_password():
+    while(True):
+        password = input("Enter password: ").strip()
+        if(password == ""):
+            print("Please enter a valid password.")
+            continue
+        break
+    return password
+
 
 def main():
     password = {
@@ -36,11 +54,11 @@ def main():
             path = input("Enter password file path: ").strip()
             pm.load_password_file(path)
         elif choice == '5':
-            site = input("Enter site: ").strip()
-            password = input("Enter password: ").strip()
+            site = check_site()
+            password = check_password()
             pm.add_password(site, password)
         elif choice == '6':
-            site = input("Enter site: ").strip()
+            site = check_site()
             print(f"Password for {site}: {pm.get_password(site)}")
         elif choice == 'q':
             done = True
