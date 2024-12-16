@@ -1,4 +1,4 @@
-from manager import PasswordManager
+from manager import PasswordManager  
 
 
 def main():
@@ -8,7 +8,7 @@ def main():
         "twitter": "password3"
     }
     
-    pm = PasswordManager()
+    pm = PasswordManager()  
 
     print("""What would you like to do?
           1. Create a new key
@@ -17,12 +17,14 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7. Usage Guide
           q. Quit
           """)
     
     done = False
     while not done:
         choice = input("Enter choice: ").strip().lower()
+        
         if choice == '1':
             path = input("Enter key file path: ").strip()
             pm.create_key(path)
@@ -42,6 +44,18 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '7':
+            print("""
+            Usage Guide:
+            1. Create a new key: Generates a new encryption key and saves it to a file.
+            2. Load an existing key: Loads a previously generated encryption key from a file.
+            3. Create a new password file: Creates a password file and adds a few default passwords.
+            4. Load an existing password file: Loads an existing password file to access encrypted passwords.
+            5. Add a password: Adds a new password to the password file for a specific site.
+            6. Get a password: Retrieves the password for a given site from the password file.
+            7. Usage Guide: Displays this usage guide to help you understand how to use the program.
+            q. Quit: Exits the program.
+            """)
         elif choice == 'q':
             done = True
             print("Goodbye!")
