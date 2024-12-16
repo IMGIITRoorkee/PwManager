@@ -39,23 +39,19 @@ class PasswordManager:
 
     def load_password_file(self, path):
         self.password_file = path
-        try:
-            with open(path, 'r') as f:
-                data = json.load(f)
-                for site, encrypted in data.items():
-                    decrypted = Fernet(self.key).decrypt(encrypted.encode()).decode()
-                    self.password_dict[site] = decrypted
-        except FileNotFoundError:
-            print(f"Password file {path} not found.")
-        except json.JSONDecodeError:
-            print(f"Error reading the password file {path}. It may be corrupted.")
+        with open(path, 'r') as f:
+            for line in f:
+                site, encrypted = line.split(":")
+                self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
+
 
     def add_password(self, site, password):
         encrypted = Fernet(self.key).encrypt(password.encode()).decode()
         self.password_dict[site] = encrypted
         if self.password_file is not None:
-            with open(self.password_file, 'w') as f:
-                json.dump(self.password_dict, f, indent=4)
+            with open(self.password_file, 'a+') as f:
+                encrypted = Fernet(self.key).encrypt(password.encode()).decode()
+                f.write(f"{site}:{encrypted}\n")
                 
 
     def get_password(self, site):
