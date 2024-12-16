@@ -37,8 +37,12 @@ class PasswordManager:
         self.password_dict[site] = password
         if self.password_file is not None:
             with open(self.password_file, 'a+') as f:
-                encrypted = Fernet(self.key).encrypt(password.encode()).decode()
-                f.write(f"{site}:{encrypted}\n")
+                files = f.read()
+                if len(files)<8:
+                    print("Password muust be of minimum 8 characters.")
+                else:
+                    encrypted = Fernet(self.key).encrypt(password.encode()).decode()
+                    f.write(f"{site}:{encrypted}\n")
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
