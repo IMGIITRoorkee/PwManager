@@ -49,3 +49,5 @@ class PasswordManager:
         for key in dict.keys():
             print(f"- {key}")
         print("-"*25)
+    def check_key_loaded(self):
+        pass
