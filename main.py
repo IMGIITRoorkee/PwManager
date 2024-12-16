@@ -1,4 +1,5 @@
 from manager import PasswordManager
+import os
 
 
 def main():
@@ -17,6 +18,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7. Display password file size
           q. Quit
           """)
     
@@ -42,6 +44,15 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '7':
+            if pm.password_file:
+                try:
+                    file_size=os.path.getsize(pm.password_file)
+                    print("Password file size:", file_size,"bytes")
+                except FileNotFoundError:
+                    print("Password file not found.")
+            else:
+                print("No password file loaded.")
         elif choice == 'q':
             done = True
             print("Goodbye!")
