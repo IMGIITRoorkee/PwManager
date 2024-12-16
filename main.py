@@ -37,7 +37,7 @@ def main():
             pm.load_password_file(path)
         elif choice == '5':
             site = input("Enter site: ").strip()
-            password = input("Enter password: ").strip()
+            password = input("Enter password (Leave Empty to generate Password): ").strip()
             pm.add_password(site, password)
         elif choice == '6':
             site = input("Enter site: ").strip()
