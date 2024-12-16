@@ -17,6 +17,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7. List all passwords by category
           q. Quit
           """)
     
@@ -38,10 +39,13 @@ def main():
         elif choice == '5':
             site = input("Enter site: ").strip()
             password = input("Enter password: ").strip()
-            pm.add_password(site, password)
+            category = input("Enter category (e.g., social, work, personal): ").strip()
+            pm.add_password(site, password,category)
         elif choice == '6':
             site = input("Enter site: ").strip()
-            print(f"Password for {site}: {pm.get_password(site)}")
+            print(pm.get_password(site))
+        elif choice == '7':
+            pm.list_passwords_by_category()
         elif choice == 'q':
             done = True
             print("Goodbye!")
