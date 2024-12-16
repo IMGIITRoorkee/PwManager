@@ -1,17 +1,15 @@
-from manager import PasswordManager  # Importing the PasswordManager class to handle password operations
+from manager import PasswordManager  
 
 
 def main():
-    # Initial set of passwords for testing (will be added to the password file)
     password = {
         "gmail": "password1",
         "facebook": "password2",
         "twitter": "password3"
     }
     
-    pm = PasswordManager()  # Creating an instance of PasswordManager to manage passwords
+    pm = PasswordManager()  
 
-    # Displaying a menu of options to the user
     print("""What would you like to do?
           1. Create a new key
           2. Load an existing key
@@ -19,47 +17,51 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7. Usage Guide
           q. Quit
           """)
     
-    done = False  # Variable to control the loop and terminate the program when set to True
+    done = False
     while not done:
-        # Asking the user to input their choice from the menu
         choice = input("Enter choice: ").strip().lower()
         
         if choice == '1':
-            # Creating a new key and saving it to the user-specified path
             path = input("Enter key file path: ").strip()
             pm.create_key(path)
         elif choice == '2':
-            # Loading an existing key from the user-specified path
             path = input("Enter key file path: ").strip()
             pm.load_key(path)
         elif choice == '3':
-            # Creating a new password file with initial passwords
             path = input("Enter password file path: ").strip()
             pm.create_password_file(path, password)
         elif choice == '4':
-            # Loading an existing password file
             path = input("Enter password file path: ").strip()
             pm.load_password_file(path)
         elif choice == '5':
-            # Adding a new password for a site
             site = input("Enter site: ").strip()
             password = input("Enter password: ").strip()
             pm.add_password(site, password)
         elif choice == '6':
-            # Retrieving a stored password for a site
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '7':
+            print("""
+            Usage Guide:
+            1. Create a new key: Generates a new encryption key and saves it to a file.
+            2. Load an existing key: Loads a previously generated encryption key from a file.
+            3. Create a new password file: Creates a password file and adds a few default passwords.
+            4. Load an existing password file: Loads an existing password file to access encrypted passwords.
+            5. Add a password: Adds a new password to the password file for a specific site.
+            6. Get a password: Retrieves the password for a given site from the password file.
+            7. Usage Guide: Displays this usage guide to help you understand how to use the program.
+            q. Quit: Exits the program.
+            """)
         elif choice == 'q':
-            # Exiting the program
             done = True
             print("Goodbye!")
         else:
-            # Handling invalid choices from the menu
             print("Invalid choice. Please try again.")
 
 
 if __name__ == '__main__':
-    main()  # Running the main function when the script is executed
+    main()
