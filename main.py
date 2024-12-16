@@ -28,7 +28,12 @@ def main():
             pm.create_key(path)
         elif choice == '2':
             path = input("Enter key file path: ").strip()
-            pm.load_key(path)
+            loaded = pm.load_key(path)
+            if not loaded:
+                rotate = input("Key has expired. Do you want to regenerate the key and re-encrypt all files? :[y/n]").strip().lower()
+                if rotate == "y":
+                    ppath = input("Enter password file path to re-encrypt: ").strip()
+                    pm.rotate_key(path,ppath)
         elif choice == '3':
             path = input("Enter password file path: ").strip()
             pm.create_password_file(path, password)
