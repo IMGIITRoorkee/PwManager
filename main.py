@@ -17,6 +17,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7. Get Statistics
           q. Quit
           """)
     
@@ -42,6 +43,8 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '7':
+            pm.create_statistics()
         elif choice == 'q':
             done = True
             print("Goodbye!")

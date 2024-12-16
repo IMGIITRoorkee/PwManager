@@ -41,4 +41,11 @@ class PasswordManager:
         return self.password_dict.get(site, "Password not found.")
 
     def create_statistics(self):
-        pass
+        dict = self.password_dict
+        num_pass = len(dict.keys())
+        print("-"*25)
+        print(f"File contains {num_pass} passwords")
+        print("The following sites have a stored password: ")
+        for key in dict.keys():
+            print(f"- {key}")
+        print("-"*25)
