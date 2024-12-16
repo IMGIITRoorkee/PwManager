@@ -17,6 +17,8 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          11. Add a folder
+          12. Access a folder
           q. Quit
           """)
     
@@ -42,6 +44,12 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '11':
+            name = input("Enter folder name: ").strip()
+            pm.add_folder(name)
+        elif choice == '12':
+            path = input("Enter folder path: ").strip()
+            pm.access_folder(path)
         elif choice == 'q':
             done = True
             print("Goodbye!")
