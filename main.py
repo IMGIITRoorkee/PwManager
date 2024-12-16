@@ -1,5 +1,51 @@
 from manager import PasswordManager
 
+def print_user_guide():
+    print("""
+    📚 === Password Manager User Guide === 📚
+
+    This Password Manager allows you to securely store and retrieve your passwords using encryption.
+    Follow the instructions below to use the application effectively.
+
+    Options Menu:
+    1. 🗝️  Create a New Key:
+       - This option generates a new encryption key and saves it to a file.
+       - Use this if you don't have an existing key.
+       - Example: Enter '1' and provide a file path (e.g., 'key.key').
+
+    2. 🔑  Load an Existing Key:
+       - Load a previously created encryption key.
+       - This is necessary to encrypt or decrypt passwords.
+       - Example: Enter '2' and provide the path to your key file (e.g., 'key.key').
+
+    3. 📄  Create a New Password File:
+       - Create a new file to store encrypted passwords.
+       - Initial passwords can be provided in the code.
+       - Example: Enter '3' and provide a file path (e.g., 'passwords.txt').
+
+    4. 📂  Load an Existing Password File:
+       - Load an existing password file and decrypt stored passwords.
+       - Example: Enter '4' and provide the path to your password file (e.g., 'passwords.txt').
+
+    5. ➕  Add a Password:
+       - Add a new password for a specific site.
+       - The password is encrypted and stored in the password file.
+       - Example: Enter '5', then provide the site name (e.g., 'github') and password (e.g., 'mypassword123').
+
+    6. 🔍  Get a Password:
+       - Retrieve a stored password for a specific site.
+       - Example: Enter '6' and provide the site name (e.g., 'github').
+
+    q. 🚪 Quit:
+       - Exit the program.
+
+    ⚠️ **Important Notes**:
+    - Always **keep your key file secure**. Without the key, you cannot decrypt your passwords.
+    - If you lose the key, all your stored passwords will be irrecoverable.
+    - Make sure to use **strong, unique passwords** for each of your accounts.
+
+    ============================================
+    """)
 
 def main():
     password = {
@@ -17,6 +63,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7. Print User Guide
           q. Quit
           """)
     
@@ -42,6 +89,8 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '7':
+            print_user_guide()
         elif choice == 'q':
             done = True
             print("Goodbye!")
