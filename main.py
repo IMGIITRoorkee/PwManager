@@ -42,6 +42,9 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '10':
+            path = input("Enter CSV file path for backup: ").strip()
+            pm.export_to_CSV(path) 
         elif choice == 'q':
             done = True
             print("Goodbye!")

@@ -1,4 +1,5 @@
 from cryptography.fernet import Fernet
+import csv
 
 
 class PasswordManager:
@@ -39,3 +40,10 @@ class PasswordManager:
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
+    
+    def export_to_CSV(self, path):
+        with open(path, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerow(['Site', 'Password'])
+            for site, password in self.password_dict.items():
+                csv_writer.writerow([site, password])
