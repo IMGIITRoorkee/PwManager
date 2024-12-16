@@ -1,6 +1,5 @@
 from manager import PasswordManager
 
-
 def main():
     password = {
         "gmail": "password1",
@@ -22,6 +21,7 @@ def main():
     
     done = False
     while not done:
+        pm.showDate()
         choice = input("Enter choice: ").strip().lower()
         if choice == '1':
             path = input("Enter key file path: ").strip()
