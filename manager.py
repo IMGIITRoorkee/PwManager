@@ -1,6 +1,5 @@
 from cryptography.fernet import Fernet
 
-
 class PasswordManager:
 
     def __init__(self):
@@ -12,6 +11,7 @@ class PasswordManager:
         self.key = Fernet.generate_key()
         with open(path, 'wb') as f:
             f.write(self.key)
+    
 
     def load_key(self, path):
         with open(path, 'rb') as f:
@@ -30,12 +30,15 @@ class PasswordManager:
                 site, encrypted = line.split(":")
                 self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
 
+        
+
     def add_password(self, site, password):
         self.password_dict[site] = password
         if self.password_file is not None:
             with open(self.password_file, 'a+') as f:
                 encrypted = Fernet(self.key).encrypt(password.encode()).decode()
                 f.write(f"{site}:{encrypted}\n")
+                
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
