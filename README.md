@@ -64,13 +64,18 @@ Visit the **python** channel and ping `2Y` for assistance.
 
 4. **Install required dependencies**:  
     ```bash
-    pip install cryptography
+    pip install -r requirements.txt
     ```  
 
 5. **Run the Application**:  
     ```bash
     python3 main.py
     ```  
+
+6. **Run the Flask server**
+    ```bash
+    python3 app.py
+    ```
 
 ---
 
@@ -79,17 +84,18 @@ Visit the **python** channel and ping `2Y` for assistance.
 - **Encrypt and Store Passwords**: Securely save your credentials.  
 - **Key Management**: Generate and load encryption keys.  
 - **File-Based Storage**: Organize passwords in a file.  
+- **Features an RESTful API**: Interact with the program programatically
 
 ---
 
 ## Requirements  
 
 - **Python**: Version 3.x or higher.  
-- **Library**: `cryptography`  
+- **Libraries**: Mentioned in  `requirements.txt`
 
 ---
 
-## How to Use  
+## How to Use (via interactive terminal)
 
 1. **Start the Program**:  
     ```bash
@@ -107,7 +113,23 @@ Visit the **python** channel and ping `2Y` for assistance.
 
 ---
 
-## Example Usage  
+## How to Use (via API)
+1. **Start the Program**:  
+    ```bash
+    python3 app.py
+    ```  
+
+2. **API Endpoints**:  
+    - 1: `/create_key`: This endpoint allows the creation of a new encryption key. You provide the path to save the key file.
+    - 2: `/load_key`: This endpoint loads the encryption key from the specified file.
+    - 3: `/create_password_file`: This endpoint creates a password file with optional initial values for passwords.
+    - 4: `/load_password_file`: This endpoint loads a password file.
+    - 5: `/add_password`: This endpoint allows you to add a new password to the manager for a given site.
+    - 6: `/get_password/<site>`: This endpoint retrieves the password for the specified site.
+
+---
+
+## Example Usage  (for interactive terminal)
 
 ### Create a New Key  
 
@@ -130,6 +152,44 @@ Enter password: securepassword123
 Enter choice: 6
 Enter site: github
 Password for github is securepassword123
+```  
+
+---
+
+## Example Usage  (for API)
+
+### Create a New Key  
+
+```bash
+$ curl -X POST http://127.0.0.1:5000/create_key -H "Content-Type: application/json" -d '{"path": "keyfile"}'
+{
+  "message": "Key file created successfully!"
+}
+```  
+
+### Add a New Password  
+
+```bash
+$ curl -X POST http://127.0.0.1:5000/add_password -H "Content-Type: application/json" -d '{"site": "google", "password": "password4"}'
+
+{
+  "message": "Password for google added successfully"
+}
+```  
+
+### Retrieve a Password  
+
+```bash
+$ curl http://127.0.0.1:5000/get_password/google
+{
+  "password": "password4",
+  "site": "google"
+}
+
+$ curl http://127.0.0.1:5000/get_password/googlee
+{
+  "error": "Password not found."
+}
 ```  
 
 ---
