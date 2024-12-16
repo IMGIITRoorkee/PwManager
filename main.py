@@ -16,7 +16,8 @@ def main():
           3. Create a new password file
           4. Load an existing password file
           5. Add a password
-          6. Get a password
+          6. Get a password 
+          10. Rename existing site
           q. Quit
           """)
     
@@ -41,7 +42,13 @@ def main():
             pm.add_password(site, password)
         elif choice == '6':
             site = input("Enter site: ").strip()
-            print(f"Password for {site}: {pm.get_password(site)}")
+            print(f"Password for {site}: {pm.get_password(site)}") 
+        
+        elif choice == '10':
+            site = input("Enter old site name: ").strip()
+            new_site = input("Enter new site name: ").strip()
+            pm.rename_site(site,new_site) 
+        
         elif choice == 'q':
             done = True
             print("Goodbye!")

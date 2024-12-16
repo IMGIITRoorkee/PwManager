@@ -43,7 +43,7 @@ Before contributing, review the following:
 ### Looking for Guidance?
 
 Join our **Discord server**: [MergeFest Discord](https://discord.gg/aKaEbaVYKf)  
-Visit the **python** channel and ping `2Y` for assistance.  
+Visit the **htmlcss** channel and ping `2Y` for assistance.  
 
 ---
 
