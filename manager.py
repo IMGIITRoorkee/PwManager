@@ -31,6 +31,9 @@ class PasswordManager:
                 self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
 
     def add_password(self, site, password):
+        while len(password) < 8: #ENSURES THAT PASSWORD IS ATLEAST 8 CHARACTERS LONG
+            print("Error: Password must be at least 8 characters long.")
+            password = input("Please enter a valid password: ").strip()#WILL CONTINUE PROMPTING USER TO ENTER THE PASSWORD IN THE CORRECT FORMAT
         self.password_dict[site] = password
         if self.password_file is not None:
             with open(self.password_file, 'a+') as f:
