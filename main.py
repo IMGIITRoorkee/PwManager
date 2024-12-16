@@ -36,12 +36,18 @@ def main():
             path = input("Enter password file path: ").strip()
             pm.load_password_file(path)
         elif choice == '5':
-            site = input("Enter site: ").strip()
-            password = input("Enter password: ").strip()
-            pm.add_password(site, password)
+            try:
+                site = input("Enter site: ").strip()
+                password = input("Enter password: ").strip()
+                expiry_date = input("Enter expiration date (YYYY-MM-DD): ").strip()
+                pm.add_password(site, password, expiry_date)
+            except Exception as e:
+                print(f"An error occurred while adding password: {e}")
         elif choice == '6':
             site = input("Enter site: ").strip()
-            print(f"Password for {site}: {pm.get_password(site)}")
+            result = pm.get_password(site)
+            if result != "Password has expired and is no longer available.":
+                print(f"Password for {site}: {result}")
         elif choice == 'q':
             done = True
             print("Goodbye!")
