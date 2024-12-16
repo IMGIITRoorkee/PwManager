@@ -64,7 +64,7 @@ Visit the **python** channel and ping `2Y` for assistance.
 
 4. **Install required dependencies**:  
     ```bash
-    pip install cryptography
+    pip install -r requirements
     ```  
 
 5. **Run the Application**:  
@@ -79,13 +79,20 @@ Visit the **python** channel and ping `2Y` for assistance.
 - **Encrypt and Store Passwords**: Securely save your credentials.  
 - **Key Management**: Generate and load encryption keys.  
 - **File-Based Storage**: Organize passwords in a file.  
+- **Cloud Backup**: Backup password files on the cloud (Google Drive)
 
 ---
 
 ## Requirements  
 
 - **Python**: Version 3.x or higher.  
-- **Library**: `cryptography`  
+- **Library**: Mentioned in requirements.txt  
+
+---
+
+## Using Cloud Storage
+
+To implement cloud storage you need to set up Google Workspace and have the `credentials.json` file. Follow [this guide](https://developers.google.com/drive/api/quickstart/python) to get familiar. The `credentials.json` file should be in the same directory as this file.
 
 ---
 
@@ -103,6 +110,8 @@ Visit the **python** channel and ping `2Y` for assistance.
     - `4`: Load an existing password file.  
     - `5`: Add a new password to the file.  
     - `6`: Retrieve a password from the file.  
+    - `7`: Uploads a local password file to the cloud.  
+    - `8`: Download password file on cloud to the local storage.  
     - `q`: Quit the application.  
 
 ---

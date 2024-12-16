@@ -1,4 +1,5 @@
 from manager import PasswordManager
+from cloud_manager import CloudManager
 
 
 def main():
@@ -7,8 +8,10 @@ def main():
         "facebook": "password2",
         "twitter": "password3"
     }
-    
-    pm = PasswordManager()
+
+    credentials_path = 'credentials.json'
+    cloud_manager = CloudManager(credentials_path)
+    pm = PasswordManager(cloud_manager)
 
     print("""What would you like to do?
           1. Create a new key
@@ -17,11 +20,12 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7. Upload password file to cloud
+          8. Download password file from cloud
           q. Quit
           """)
-    
-    done = False
-    while not done:
+
+    while True:
         choice = input("Enter choice: ").strip().lower()
         if choice == '1':
             path = input("Enter key file path: ").strip()
@@ -42,9 +46,14 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '7':
+            pm.upload_password_file()
+        elif choice == '8':
+            file_name = input("Enter the file name to download: ").strip()
+            pm.download_password_file(file_name)
         elif choice == 'q':
-            done = True
             print("Goodbye!")
+            break
         else:
             print("Invalid choice. Please try again.")
 
