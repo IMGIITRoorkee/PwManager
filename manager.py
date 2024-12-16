@@ -27,15 +27,18 @@ class PasswordManager:
         self.password_file = path
         with open(path, 'r') as f:
             for line in f:
-                site, encrypted = line.split(":")
+                encrypted_site, encrypted = line.split(":")
+                site = Fernet(self.key).decrypt(encrypted_site.encode()).decode()
                 self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
+                
 
     def add_password(self, site, password):
         self.password_dict[site] = password
         if self.password_file is not None:
             with open(self.password_file, 'a+') as f:
                 encrypted = Fernet(self.key).encrypt(password.encode()).decode()
-                f.write(f"{site}:{encrypted}\n")
+                encrypted_site = Fernet(self.key).encrypt(site.encode()).decode()
+                f.write(f"{encrypted_site}:{encrypted}\n")
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
