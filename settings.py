@@ -36,7 +36,6 @@ class SettingsManager:
             try:
                 r = requests.get(url)
                 self.settings = r.json()
-                self.save_settings()
             except requests.exceptions.RequestException as e:
                 print("Error loading settings file:", e)
         else:
