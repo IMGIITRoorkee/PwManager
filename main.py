@@ -45,7 +45,11 @@ def main():
             print(f"Password for {site}: {pm.get_password(site)}")
         elif choice == '10':
             site = input("Enter site to delete password: ").strip()
-            pm.delete_password(site)
+            prompt = input(f"Confirm deleting password for {site} ? (y/n)").strip().lower()
+            if(prompt=="y"):
+                pm.delete_password(site)
+            else:
+                print("No changes made!")
         elif choice == 'q':
             done = True
             print("Goodbye!")
