@@ -39,3 +39,17 @@ class PasswordManager:
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
+    def delete_password(self, site):
+        if site in self.password_dict:
+            # Remove from the dictionary
+            del self.password_dict[site]
+            # Update the password file
+            if self.password_file is not None:
+                with open(self.password_file, 'r') as f:
+                    lines = f.readlines()
+                with open(self.password_file, 'w') as f:
+                    for line in lines:
+                        if not line.startswith(site + ":"):  # Skip the line with the site to delete
+                            f.write(line)
+        else:
+            print("Site not found.")

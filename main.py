@@ -17,6 +17,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          10. Delete a password
           q. Quit
           """)
     
@@ -42,6 +43,9 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '10':
+            site = input("Enter site to delete password: ").strip()
+            pm.delete_password(site)
         elif choice == 'q':
             done = True
             print("Goodbye!")
