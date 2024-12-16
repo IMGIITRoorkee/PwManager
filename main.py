@@ -17,6 +17,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7. Update a password
           q. Quit
           """)
     
@@ -42,6 +43,14 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '7':
+            site = input("Enter site: ").strip()
+            old_pass = input("Enter previous password: ").strip()
+            if pm.check_password(site, old_pass):
+                new_pass = input("Enter new password: ").strip()
+                pm.update_password(site, new_pass)
+            else:
+                print("invalid old password")
         elif choice == 'q':
             done = True
             print("Goodbye!")
