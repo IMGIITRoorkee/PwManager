@@ -19,6 +19,7 @@ def main():
           5. Add a password
           6. Get a password
           7. Display password file size
+          8.Help
           q. Quit
           """)
     
@@ -53,6 +54,19 @@ def main():
                     print("Password file not found.")
             else:
                 print("No password file loaded.")
+        elif choice=="8":
+            print("""
+            Choose an action:
+            1. Generate a new encryption key - Create a new key to secure passwords.
+            2. Load an existing encryption key - Retrieve and use an existing key to encrypt/decrypt passwords.
+            3. Create a new password storage file - Initialize a fresh password file with predefined data.
+            4. Load an existing password file - Open and read an already saved password file.
+            5. Add a new password - Save a password for a website or service.
+            6. Retrieve a password - Get the stored password for a given site.
+            7. Check password file size - Display the current size of the password file.
+            h. Help - Show detailed instructions for all actions available.
+            q. Exit - Close the program.
+            """)
         elif choice == 'q':
             done = True
             print("Goodbye!")
