@@ -26,11 +26,19 @@ class PasswordManager:
                 self.add_password(site, initial_values[site])
 
     def load_password_file(self, path):
-        self.password_file = path
-        with open(path, 'r') as f:
-            for line in f:
-                site, encrypted = line.split(":")
-                self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
+        # to raise an error whenever that file is not present -> we use try and except block
+        # we copy whatever code was written previously in the try block 
+        # and in the except block, we write a FileNotFound error message
+        try:
+            self.password_file = path
+            with open(path, 'r') as f:
+                for line in f:
+                    site, encrypted = line.split(":")
+                    self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
+        except FileNotFoundError:
+            raise FileNotFoundError(f"The given file path '{path}' does not exist.")
+        except Exception as e:
+            raise Exception(f"This unexpected error occured: {e}")
 
     def add_password(self, site, password):
         self.password_dict[site] = password
