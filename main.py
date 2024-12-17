@@ -17,6 +17,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7.Recover a lost key
           q. Quit
           """)
     
@@ -42,6 +43,12 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        
+         # Added the case for key recovery
+        elif choice == '7':
+            path = input("Enter backup file path: ").strip()
+            pm.recover_key(path)
+
         elif choice == 'q':
             done = True
             print("Goodbye!")
