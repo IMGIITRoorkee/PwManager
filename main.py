@@ -3,15 +3,16 @@ import asyncio
 import sys
 
 
-async def setTimeOut(prompt,timeout):
+async def setTimeOut(prompt, timeout):
     try:
-        print(prompt, end="")
+        print(prompt, end="", flush=True)
         userInp = await asyncio.wait_for(asyncio.to_thread(input), timeout)
         return userInp
     except asyncio.TimeoutError:
-        print("Timeout. Goodbye!")
-        sys.exit()
-        return None
+        print("\nTimeout. Goodbye!")
+        import os
+        # Use os._exit to forcefully terminate the process
+        os._exit(0)
     
 async def main():
     password = {
