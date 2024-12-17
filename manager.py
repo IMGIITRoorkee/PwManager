@@ -39,3 +39,15 @@ class PasswordManager:
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
+    
+    # the function for deletion and confirmation
+    def remove_password(self, site):
+        if site in self.password_dict:
+            confirm = input(f"Are you sure you want to delete the password for {site}? (yes/no): ").strip().lower()
+            if confirm == 'yes':
+                del self.password_dict[site]
+                print(f"Password for {site} has been removed.")
+            else:
+                print("Deletion cancelled.")
+        else:
+            print("Site not found in saved passwords.")

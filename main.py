@@ -17,6 +17,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7.remove a password
           q. Quit
           """)
     
@@ -42,6 +43,11 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        
+        # deletion code , respective function is created in manager.py
+        elif choice == '7':
+            site = input("Enter site to remove: ").strip()
+            pm.remove_password(site)
         elif choice == 'q':
             done = True
             print("Goodbye!")
