@@ -1,5 +1,6 @@
 from cryptography.fernet import Fernet
-
+import hashlib
+import base64
 
 class PasswordManager:
 
@@ -54,8 +55,11 @@ class PasswordManager:
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
     
+    #the recovery function
+
     def recover_key(self, backup_path):
         try:
+            
             with open(backup_path, 'r') as f:
                 question = f.readline().strip()
                 encrypted_backup_key = f.readline().strip()
@@ -63,12 +67,15 @@ class PasswordManager:
             print(f"Security Question: {question}")
             answer = input("Enter your answer: ").strip()
 
-            # Derive the recovery encryption key using the answer
-            recovery_key = Fernet(Fernet.generate_key())  
-            decrypted_key = Fernet(recovery_key).decrypt(encrypted_backup_key.encode()).decode()
+            
+            recovery_key = hashlib.sha256(answer.encode()).digest()
+            recovery_key = Fernet(base64.urlsafe_b64encode(recovery_key))  
+
+            
+            decrypted_key = recovery_key.decrypt(encrypted_backup_key.encode())
+            self.key = decrypted_key
 
             print("Key recovered successfully!")
-            self.key = decrypted_key.encode()
 
         except Exception as e:
             print(f"Error: {e}\nFailed to recover the key.")
