@@ -1,0 +1,6 @@
+{
+    "password_length": "13",
+    "default_encryption_algorithm": "Fernet",
+    "auto_save_passwords": true,
+    "max_passwords_per_file": 100
+}

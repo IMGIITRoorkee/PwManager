@@ -1,4 +1,5 @@
 from cryptography.fernet import Fernet
+from settings import SettingsManager
 
 
 class PasswordManager:
@@ -25,10 +26,13 @@ class PasswordManager:
 
     def load_password_file(self, path):
         self.password_file = path
-        with open(path, 'r') as f:
-            for line in f:
-                site, encrypted = line.split(":")
-                self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
+        try:
+            with open(path, 'r') as f:
+                for line in f:                    
+                    site, encrypted = line.split(":")
+                    self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
+        except:
+            print("File format not valid!")
 
     def add_password(self, site, password):
         self.password_dict[site] = password
@@ -39,3 +43,14 @@ class PasswordManager:
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
+
+    def generate_password(self):
+        """Generate a password using configured settings."""
+        import random
+        import string
+
+        length = int(SettingsManager.get("password_length", 12))  
+        # Default to 12 if not set
+        characters = string.ascii_letters + string.digits + string.punctuation
+        password = ''.join(random.choice(characters) for _ in range(length))
+        return password
