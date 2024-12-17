@@ -17,7 +17,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
-          7.remove a password
+          7.Recover a lost key
           q. Quit
           """)
     
@@ -44,10 +44,11 @@ def main():
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
         
-        # deletion code , respective function is created in manager.py
-        elif choice == '7':
-            site = input("Enter site to remove: ").strip()
-            pm.remove_password(site)
+         # Added the case for key recovery
+        elif choice == '3':
+            path = input("Enter backup file path: ").strip()
+            pm.recover_key(path)
+
         elif choice == 'q':
             done = True
             print("Goodbye!")

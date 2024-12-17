@@ -12,6 +12,20 @@ class PasswordManager:
         self.key = Fernet.generate_key()
         with open(path, 'wb') as f:
             f.write(self.key)
+        
+         # Generate backup key and encrypt it with a security question
+        backup_key = Fernet.generate_key()
+        print("Set a security question to recover your key:")
+        question = input("Enter security question: ").strip()
+        answer = input("Enter answer to the question: ").strip()
+        
+        # Encrypt the backup key using the answer as the key
+        recovery_key = Fernet(Fernet.generate_key())  # Use Fernet to derive the encryption key
+        encrypted_backup = Fernet(backup_key).encrypt(answer.encode()).decode()
+
+        # Save backup key and question
+        with open("backup_key.txt", 'w') as f:
+            f.write(f"{question}\n{encrypted_backup}")
 
     def load_key(self, path):
         with open(path, 'rb') as f:
@@ -40,14 +54,24 @@ class PasswordManager:
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
     
-    # the function for deletion and confirmation
-    def remove_password(self, site):
-        if site in self.password_dict:
-            confirm = input(f"Are you sure you want to delete the password for {site}? (yes/no): ").strip().lower()
-            if confirm == 'yes':
-                del self.password_dict[site]
-                print(f"Password for {site} has been removed.")
-            else:
-                print("Deletion cancelled.")
-        else:
-            print("Site not found in saved passwords.")
+    def recover_key(self, backup_path):
+        try:
+            with open(backup_path, 'r') as f:
+                question = f.readline().strip()
+                encrypted_backup_key = f.readline().strip()
+
+            print(f"Security Question: {question}")
+            answer = input("Enter your answer: ").strip()
+
+            # Derive the recovery encryption key using the answer
+            recovery_key = Fernet(Fernet.generate_key())  
+            decrypted_key = Fernet(recovery_key).decrypt(encrypted_backup_key.encode()).decode()
+
+            print("Key recovered successfully!")
+            self.key = decrypted_key.encode()
+
+        except Exception as e:
+            print(f"Error: {e}\nFailed to recover the key.")
+
+    
+   
