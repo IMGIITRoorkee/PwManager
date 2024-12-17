@@ -27,6 +27,7 @@ def main():
           5. Add a password
           6. Get a password
           7. List all sites
+          10. Backup passowrd to CSV
           q. Quit
           """)
     
