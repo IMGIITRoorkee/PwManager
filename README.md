@@ -78,14 +78,15 @@ Visit the **python** channel and ping `2Y` for assistance.
 
 - **Encrypt and Store Passwords**: Securely save your credentials.  
 - **Key Management**: Generate and load encryption keys.  
-- **File-Based Storage**: Organize passwords in a file.  
+- **File-Based Storage**: Organize passwords in a file. 
+- **Now handles users via api. 
 
 ---
 
 ## Requirements  
 
 - **Python**: Version 3.x or higher.  
-- **Library**: `cryptography`  
+- **Library**: `cryptography`,`flask`
 
 ---
 
@@ -93,7 +94,8 @@ Visit the **python** channel and ping `2Y` for assistance.
 
 1. **Start the Program**:  
     ```bash
-    python3 main.py
+    python3 main.py 
+ now make a POST request on the /password endpoint which accepts number according to the Menu options and returns a json response
     ```  
 
 2. **Menu Options**:  
