@@ -1,5 +1,5 @@
 from cryptography.fernet import Fernet
-
+import os
 
 class PasswordManager:
 
@@ -62,4 +62,28 @@ class PasswordManager:
                 has_numeric_characters = True
         return has_numeric_characters and has_good_length and\
               has_capital_letters and has_special_char and has_small_letters
+    def reEncrypt(self, path):
+        if self.key is None:
+            raise Exception("KeyNotLoadedError")
+
+        old_key = self.key
+        self.create_key(path)
+
+        temp_file_path = self.password_file + '.tmp'
+        
+
+        with open(self.password_file, 'r') as orig_file, \
+             open(temp_file_path, 'w') as temp_file:
+
+            for line in orig_file:
+                site, encrypted_password = line.strip().split(':')
+                decrypted_password = Fernet(old_key).decrypt(encrypted_password.encode()).decode()
+                new_encrypted_password = Fernet(self.key).encrypt(decrypted_password.encode()).decode()
+                
+                temp_file.write(f"{site}:{new_encrypted_password}\n")
+
+
+        os.replace(temp_file_path, self.password_file)
+        
+        print("Passwords re-encrypted successfully with new key.")
 

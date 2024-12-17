@@ -17,6 +17,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
+          7. Re-encrypt password file with new key
           q. Quit
           """)
     
@@ -49,6 +50,9 @@ def main():
         elif choice == '6':
             site = input("Enter site: ").strip()
             print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '7':
+            path = input("Enter password file path: ").strip()
+            pm.reEncrypt(path)
         elif choice == 'q':
             done = True
             print("Goodbye!")
