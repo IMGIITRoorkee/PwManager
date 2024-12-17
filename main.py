@@ -1,53 +1,77 @@
+from flask import Flask,request
+from flask_cors import CORS
 from manager import PasswordManager
 
 
-def main():
-    password = {
+app = Flask(__name__)
+CORS(app)
+app.config['JSON_SORT_KEYS'] = False
+password = {
         "gmail": "password1",
         "facebook": "password2",
         "twitter": "password3"
     }
     
-    pm = PasswordManager()
+pm = PasswordManager()
 
-    print("""What would you like to do?
-          1. Create a new key
-          2. Load an existing key
-          3. Create a new password file
-          4. Load an existing password file
-          5. Add a password
-          6. Get a password
-          q. Quit
-          """)
-    
-    done = False
-    while not done:
-        choice = input("Enter choice: ").strip().lower()
+
+@app.route("/pasword",methods=['GET','POST'])
+def password():
+    if request.method == 'POST':
+        choice = request.form.get('choice')
         if choice == '1':
-            path = input("Enter key file path: ").strip()
+            path = request.form.get('path')
             pm.create_key(path)
+            return {
+                "msg" : "key created successfully",
+                "path" : path,
+                "status":"success"
+            }
         elif choice == '2':
-            path = input("Enter key file path: ").strip()
+            path = request.form.get('path')
             pm.load_key(path)
+            return {
+                "msg" : "loaded from path :" + path,
+                "status" : "success",
+            }
         elif choice == '3':
-            path = input("Enter password file path: ").strip()
+            path = request.form.get('path')
             pm.create_password_file(path, password)
+            return {
+                "status" :"success",
+                "msg" : "password file created successfully",
+                "path" : path
+            }
         elif choice == '4':
-            path = input("Enter password file path: ").strip()
+            path = request.form.get('path')
             pm.load_password_file(path)
+            return  {
+                "status" : "success",
+                "msg" : "password file loaded successfully",
+                "path" : path
+            }
         elif choice == '5':
-            site = input("Enter site: ").strip()
-            password = input("Enter password: ").strip()
+            site = request.form.get('site')
+            password = request.form.get('password')
             pm.add_password(site, password)
+            return {
+                "status" : "success",
+                "msg" : f"password for {site} added successfully"
+            }
         elif choice == '6':
-            site = input("Enter site: ").strip()
-            print(f"Password for {site}: {pm.get_password(site)}")
-        elif choice == 'q':
-            done = True
-            print("Goodbye!")
+            site = request.form.get('site')
+            password = pm.get_password(site)
+            return {
+                "status" : "success",
+                "msg" : f"password for {site} is {password}"
+            }
+            
+            
+            
         else:
-            print("Invalid choice. Please try again.")
-
-
-if __name__ == '__main__':
-    main()
+            return {
+                "status" : "the given choice is invalid",
+                
+            }
+if __name__ == "__main__" :
+    app.run()
