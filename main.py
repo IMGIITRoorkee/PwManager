@@ -39,10 +39,17 @@ def main():
             try:
                 site = input("Enter site: ").strip()
                 password = input("Enter password: ").strip()
-                expiry_date = input("Enter expiration date (YYYY-MM-DD): ").strip()
-                pm.add_password(site, password, expiry_date)
+                if pm.validate_strength(password):
+                    expiry_date = input("Enter expiration date (YYYY-MM-DD): ").strip()
+                    pm.add_password(site, password, expiry_date)
+                    print("Password added successfully.")
+                else:
+                    print("WARNING: This password is weak. It is recommended to set a stronger password.")
+                    print("- Password should be more than 8 characters long")
+                    print("- Password should have alphanumeric characters, capital letters, and special characters")
             except Exception as e:
-                print(f"An error occurred while adding password: {e}")
+                print(f"An error occurred while adding the password: {e}")
+
         elif choice == '6':
             site = input("Enter site: ").strip()
             result = pm.get_password(site)
