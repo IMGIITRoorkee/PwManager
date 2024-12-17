@@ -36,14 +36,28 @@ def main():
             path = input("Enter password file path: ").strip()
             pm.load_password_file(path)
         elif choice == '5':
-            site = input("Enter site: ").strip()
-            password = input("Enter password: ").strip()
-            if pm.validate_strength(password):
-                print("added successfully")
-            else:
-                print("WARNING: This password is weak, It is recommended to set a stronger password")
-                print("- Password should be more than 8 characters long")
-                print("- Password should have alphanumeric characters, capital letters and special characters")
+            generatePassword = input("Do you want to generate a password? (y/n): ").strip().lower()
+            if generatePassword == 'y':
+                site = input("Enter site: ").strip()
+                length = 0
+                while length <= 8:
+                    length = int(input("Enter password length: ").strip().lower())
+                
+
+                strength = input("Enter password strength (good, strong, verystrong): ").strip().lower()
+                password = pm.generatePassword(length,strength)
+                print(f"Generated password: {password}")
+                pm.add_password(site, password)
+            elif generatePassword == 'n':
+                site = input("Enter site: ").strip()
+                password = input("Enter password: ").strip()
+                if pm.validate_strength(password) in ['very strong', 'strong', 'good']:
+                    print("added successfully")
+                else:
+                    print("WARNING: This password is weak, It is recommended to set a stronger password")
+                    print("- Password should be more than 8 characters long")
+                    print("- Password may have alphanumeric characters, capital letters and special characters")
+                    print("if trouble choosing a password, you can generate a random password")
             pm.add_password(site, password)
                 
         elif choice == '6':
