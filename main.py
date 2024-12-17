@@ -45,7 +45,7 @@ def main():
             print(f"Password for {site}: {pm.get_password(site)}")
         
          # Added the case for key recovery
-        elif choice == '3':
+        elif choice == '7':
             path = input("Enter backup file path: ").strip()
             pm.recover_key(path)
 
