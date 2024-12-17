@@ -1,5 +1,5 @@
 from cryptography.fernet import Fernet
-
+import os
 
 class PasswordManager:
 
@@ -62,4 +62,11 @@ class PasswordManager:
                 has_numeric_characters = True
         return has_numeric_characters and has_good_length and\
               has_capital_letters and has_special_char and has_small_letters
-
+    def get_file_size(self, path):
+    #First checks if the file exists 
+    #If it does, then displays its size
+    #otherwise raises an error 
+        if os.path.exists(path):
+            return os.path.getsize(path)
+        else:
+            raise FileNotFoundError(f"The file '{path}' does not exist.")

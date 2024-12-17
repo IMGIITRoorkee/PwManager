@@ -35,6 +35,8 @@ def main():
         elif choice == '4':
             path = input("Enter password file path: ").strip()
             pm.load_password_file(path)
+            size = pm.get_file_size(path)
+            print(f"Password file loaded successfully. The size of is {size} bytes.")
         elif choice == '5':
             site = input("Enter site: ").strip()
             password = input("Enter password: ").strip()
