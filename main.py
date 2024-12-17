@@ -34,7 +34,13 @@ def main():
             pm.create_password_file(path, password)
         elif choice == '4':
             path = input("Enter password file path: ").strip()
-            pm.load_password_file(path)
+            try:
+                pm.load_password_file(path)
+                print(f"Password file '{path}' loaded successfully.")
+            except FileNotFoundError as e:
+                print(e)     # This automatically prints the friendly error message from manager.py
+            except Exception as e:
+                print(f"This unexpected error occurred: {e}")
         elif choice == '5':
             site = input("Enter site: ").strip()
             password = input("Enter password: ").strip()
