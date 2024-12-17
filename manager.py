@@ -39,3 +39,12 @@ class PasswordManager:
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
+    
+    def re_encrypt(self, path):
+        if self.password_file is not None:
+            with open(path, 'rb') as f:
+                self.key = f.read()
+            with open(self.password_file, 'w') as f:
+                for site, password in self.password_dict.items():
+                    encrypted = Fernet(self.key).encrypt(password.encode()).decode()
+                    f.write(f"{site}:{encrypted}\n")
