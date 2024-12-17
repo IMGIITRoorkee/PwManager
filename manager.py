@@ -67,12 +67,13 @@ class PasswordManager:
             print(f"Security Question: {question}")
             answer = input("Enter your answer: ").strip()
 
-            
+           
             recovery_key = hashlib.sha256(answer.encode()).digest()
-            recovery_key = Fernet(base64.urlsafe_b64encode(recovery_key))  
+            recovery_key = base64.urlsafe_b64encode(recovery_key) 
+            fernet = Fernet(recovery_key)  
 
-            
-            decrypted_key = recovery_key.decrypt(encrypted_backup_key.encode())
+          
+            decrypted_key = fernet.decrypt(encrypted_backup_key.encode())  
             self.key = decrypted_key
 
             print("Key recovered successfully!")
