@@ -1,5 +1,5 @@
 from cryptography.fernet import Fernet
-
+import random
 
 class PasswordManager:
 
@@ -60,6 +60,23 @@ class PasswordManager:
                 has_small_letters = True
             if chr.isdigit():
                 has_numeric_characters = True
-        return has_numeric_characters and has_good_length and\
-              has_capital_letters and has_special_char and has_small_letters
+        passwordStrength = ''
+        if has_good_length and has_special_char and has_numeric_characters and has_capital_letters and has_small_letters:
+            passwordStrength = 'verystrong'
+        elif has_good_length and has_numeric_characters and has_capital_letters and has_small_letters:
+            passwordStrength = 'strong'
+        elif has_good_length and has_capital_letters and has_small_letters:
+            passwordStrength = 'good'
+        return passwordStrength
+    
+    def generatePassword(self,length,strength):
+        ascii_letters = 'abcdefghijklmnopqrstuvwxyz'
+        capital_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        numbers = '0123456789'
+        special_characters = '!@#$%^&*'
+        all_chars = ascii_letters + capital_letters + numbers + special_characters
+        password = random.sample(all_chars, length)
+        while self.validate_strength(''.join(password)) != strength:
+            password = random.sample(all_chars, length)
+        return ''.join(password)
 
