@@ -23,30 +23,36 @@ def main():
     done = False
     while not done:
         choice = input("Enter choice: ").strip().lower()
-        if choice == '1':
-            path = input("Enter key file path: ").strip()
-            pm.create_key(path)
-        elif choice == '2':
-            path = input("Enter key file path: ").strip()
-            pm.load_key(path)
-        elif choice == '3':
-            path = input("Enter password file path: ").strip()
-            pm.create_password_file(path, password)
-        elif choice == '4':
-            path = input("Enter password file path: ").strip()
-            pm.load_password_file(path)
-        elif choice == '5':
-            site = input("Enter site: ").strip()
-            password = input("Enter password: ").strip()
-            pm.add_password(site, password)
-        elif choice == '6':
-            site = input("Enter site: ").strip()
-            print(f"Password for {site}: {pm.get_password(site)}")
-        elif choice == 'q':
-            done = True
-            print("Goodbye!")
-        else:
-            print("Invalid choice. Please try again.")
+        try:
+            if choice == '1':
+                path = input("Enter key file path: ").strip()
+                pm.create_key(path)
+            elif choice == '2':
+                path = input("Enter key file path: ").strip()
+                pm.load_key(path)
+            elif choice == '3':
+                path = input("Enter password file path: ").strip()
+                pm.create_password_file(path, password)
+            elif choice == '4':
+                path = input("Enter password file path: ").strip()
+                pm.load_password_file(path)
+            elif choice == '5':
+                site = input("Enter site: ").strip()
+                password = input("Enter password: ").strip()
+                pm.add_password(site, password)
+            elif choice == '6':
+                site = input("Enter site: ").strip()
+                print(f"Password for {site}: {pm.get_password(site)}")
+            elif choice == 'q':
+                done = True
+                print("Goodbye!")
+            else:
+                print("Invalid choice. Please try again.")
+        except Exception as e:
+            if str(e) == "KeyNotLoadedError":    
+                print("Key not loaded. Please load a key first.")
+            else:
+                print(f"Something went wrong: {e} Please report this to the developer.")
 
 
 if __name__ == '__main__':

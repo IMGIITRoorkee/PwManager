@@ -33,6 +33,8 @@ class PasswordManager:
     def add_password(self, site, password):
         self.password_dict[site] = password
         if self.password_file is not None:
+            if self.key is None:
+                raise Exception("KeyNotLoadedError")
             with open(self.password_file, 'a+') as f:
                 encrypted = Fernet(self.key).encrypt(password.encode()).decode()
                 f.write(f"{site}:{encrypted}\n")
