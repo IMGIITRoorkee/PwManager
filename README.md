@@ -10,6 +10,7 @@ A **CLI-based password manager** built in Python for secure password storage and
 /
 ├── main.py      # Entry point for executing the program
 ├── manager.py   # Core logic and functionality
+├── gui_manager.py   # GUI component
 ```
 
 ---
@@ -64,7 +65,7 @@ Visit the **python** channel and ping `2Y` for assistance.
 
 4. **Install required dependencies**:  
     ```bash
-    pip install cryptography
+    pip install cryptography PyQt5
     ```  
 
 5. **Run the Application**:  
@@ -97,40 +98,8 @@ Visit the **python** channel and ping `2Y` for assistance.
     ```  
 
 2. **Menu Options**:  
-    - `1`: Create a new encryption key.  
-    - `2`: Load an existing encryption key.  
-    - `3`: Create a new password file.  
-    - `4`: Load an existing password file.  
-    - `5`: Add a new password to the file.  
-    - `6`: Retrieve a password from the file.  
-    - `q`: Quit the application.  
 
----
-
-## Example Usage  
-
-### Create a New Key  
-
-```bash
-Enter choice: 1
-Enter key file path: keyfile.key
-```  
-
-### Add a New Password  
-
-```bash
-Enter choice: 5
-Enter site: github
-Enter password: securepassword123
-```  
-
-### Retrieve a Password  
-
-```bash
-Enter choice: 6
-Enter site: github
-Password for github is securepassword123
-```  
+Follow the GUI.  
 
 ---
 
