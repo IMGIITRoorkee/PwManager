@@ -102,7 +102,9 @@ Visit the **python** channel and ping `2Y` for assistance.
     - `3`: Create a new password file.  
     - `4`: Load an existing password file.  
     - `5`: Add a new password to the file.  
-    - `6`: Retrieve a password from the file.  
+    - `6`: Retrieve a password from the file.
+    - `11`: Add a hierarchy heading in password_file  
+    - `12`: Access any hierarchy in the password_file to add password within it  
     - `q`: Quit the application.  
 
 ---
