@@ -1,32 +1,41 @@
-from cryptography.fernet import Fernet
+import time
+from datetime import datetime,timedelta
 
+from cryptography.fernet import Fernet
 
 class PasswordManager:
 
-    def __init__(self):
+    def __init__(self, expiration_days=30):
         self.key = None
         self.password_file = None
         self.password_dict = {}
-        self.keyloaded = False
+        self.key_creation_date = None
+        self.key_expiration_days = expiration_days
 
     def create_key(self, path):
         self.key = Fernet.generate_key()
+        self.key_creation_date = datetime.now()
+
         with open(path, 'wb') as f:
             f.write(self.key)
-        self.keyloaded = True
+            f.write(b"\n")
+            f.write(self.key_creation_date.isoformat().encode())
 
     def load_key(self, path):
         with open(path, 'rb') as f:
-            self.key = f.read()
-        self.keyloaded = True
-
+            self.key = f.readline().strip()  # first line for the key
+            creation_date_str = f.readline().strip().decode()  # second line for the key creation date
+            self.key_creation_date = datetime.fromisoformat(creation_date_str)
+        
+        if self.is_key_expired():
+            return False
+        return True
 
     def create_password_file(self, path, initial_values=None):
         self.password_file = path
         if initial_values is not None:
-            for site in initial_values:
-                print(initial_values[site])
-                self.add_password(site, initial_values[site])
+            for site, password in initial_values.items():
+                self.add_password(site, password)
 
     def load_password_file(self, path):
         self.password_file = path
@@ -35,36 +44,30 @@ class PasswordManager:
                 site, encrypted = line.split(":")
                 self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
 
+
     def add_password(self, site, password):
-        self.password_dict[site] = password
+        encrypted = Fernet(self.key).encrypt(password.encode()).decode()
+        self.password_dict[site] = encrypted
         if self.password_file is not None:
             with open(self.password_file, 'a+') as f:
                 encrypted = Fernet(self.key).encrypt(password.encode()).decode()
                 f.write(f"{site}:{encrypted}\n")
+                
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
-    def validate_strength(self, password):
-        # a password is strong if it has length greater than 8
-        # it has special characters such as !@#$%^&*
-        # it is a mix of letters, numbers
-        SpecialChar = '!@#$%^&*'
-        has_good_length = False
-        has_special_char = False
-        has_numeric_characters = False
-        has_capital_letters = False
-        has_small_letters = False
-        if len(password) > 8: 
-            has_good_length = True
-        for chr in password:
-            if chr in SpecialChar:
-                has_special_char = True
-            if chr.isupper():
-                has_capital_letters = True
-            if chr.islower():
-                has_small_letters = True
-            if chr.isdigit():
-                has_numeric_characters = True
-        return has_numeric_characters and has_good_length and\
-              has_capital_letters and has_special_char and has_small_letters
+    
+    def is_key_expired(self):
+        expiration_date = self.key_creation_date + timedelta(days=self.key_expiration_days)
+        return datetime.now() > expiration_date
 
+    def rotate_key(self,path,password_file):
+        self.load_password_file(password_file)
+        self.create_key(path)
+
+        if self.password_dict is not None:
+            with open(password_file, "w") as f:
+                for site, password in self.password_dict.items():
+                    self.password_dict[site] = password
+                    encrypted = Fernet(self.key).encrypt(password.encode()).decode()
+                    f.write(f"{site}:{encrypted}\n")

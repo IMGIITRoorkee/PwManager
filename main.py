@@ -1,14 +1,5 @@
 from manager import PasswordManager
-import pyperclip
 
-
-
-
-def validate_key_loaded(pm : PasswordManager):
-    if not pm.keyloaded:
-        print("Key not loaded. Please load a key first.")
-        return False
-    return True
 
 def main():
     password = {
@@ -26,7 +17,6 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
-          7. List all sites
           q. Quit
           """)
     
@@ -38,37 +28,29 @@ def main():
             pm.create_key(path)
         elif choice == '2':
             path = input("Enter key file path: ").strip()
-            pm.load_key(path)
-        elif choice == '3' and validate_key_loaded(pm):
+            loaded = pm.load_key(path)
+            if not loaded:
+                rotate = input("Key has expired. Do you want to regenerate the key and re-encrypt all files? :[y/n]").strip().lower()
+                if rotate == "y":
+                    ppath = input("Enter password files' paths to re-encrypt (separated by space): ").strip().split()
+                    for password_file in ppath:
+                        try:
+                            pm.rotate_key(path,password_file)
+                        except FileNotFoundError:
+                            print("An error occured: {password_file} does not exists!")
+        elif choice == '3':
             path = input("Enter password file path: ").strip()
             pm.create_password_file(path, password)
-        elif choice == '4' and validate_key_loaded(pm):
+        elif choice == '4':
             path = input("Enter password file path: ").strip()
             pm.load_password_file(path)
-        elif choice == '5' and validate_key_loaded(pm):
+        elif choice == '5':
             site = input("Enter site: ").strip()
             password = input("Enter password: ").strip()
-            if pm.validate_strength(password):
-                print("added successfully")
-            else:
-                print("WARNING: This password is weak, It is recommended to set a stronger password")
-                print("- Password should be more than 8 characters long")
-                print("- Password should have alphanumeric characters, capital letters and special characters")
             pm.add_password(site, password)
-
-        elif choice == '6' and validate_key_loaded(pm):
-
+        elif choice == '6':
             site = input("Enter site: ").strip()
-            res = pm.get_password(site)
-            print(f"Password for {site}: {res}")
-            if(res != "Password not found."):
-                pyperclip.copy(pm.get_password(site))
-                print("Password copied to clipboard.")
-
-        elif choice == '7':
-            print("Saved Sites:")
-            for site in pm.password_dict:
-                print(site)
+            print(f"Password for {site}: {pm.get_password(site)}")
         elif choice == 'q':
             done = True
             print("Goodbye!")
