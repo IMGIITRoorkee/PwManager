@@ -27,6 +27,7 @@ def main():
           5. Add a password
           6. Get a password
           7. List all sites
+          10. Backup passowrd to CSV
           q. Quit
           """)
     
@@ -59,6 +60,10 @@ def main():
         elif choice == '6' and validate_key_loaded(pm):
 
             site = input("Enter site: ").strip()
+            print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '10':
+            path = input("Enter CSV file path for backup: ").strip()
+            pm.export_to_CSV(path) 
             res = pm.get_password(site)
             print(f"Password for {site}: {res}")
             if(res != "Password not found."):
