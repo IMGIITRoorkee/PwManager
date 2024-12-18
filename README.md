@@ -79,7 +79,8 @@ Visit the **python** channel and ping `2Y` for assistance.
 
 - **Encrypt and Store Passwords**: Securely save your credentials.  
 - **Key Management**: Generate and load encryption keys.  
-- **File-Based Storage**: Organize passwords in a file.  
+- **File-Based Storage**: Organize passwords in a file.
+- **Simple GUI**: A simple GUI made in QT for interactivity.
 
 ---
 
