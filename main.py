@@ -3,7 +3,6 @@ import pyperclip
 import asyncio
 import os
 
-
 async def setTimeOut(prompt, timeout):
     try:
         print(prompt, end="", flush=True)
@@ -11,7 +10,6 @@ async def setTimeOut(prompt, timeout):
         return userInp
     except asyncio.TimeoutError:
         print("\nTimeout. Goodbye!")
-        # Use os._exit to forcefully terminate the process
         os._exit(0)
 
 def validate_key_loaded(pm : PasswordManager):
@@ -98,7 +96,6 @@ async def main():
 
         else:
             print("Invalid choice. Please try again.")
-
 
 if __name__ == '__main__':
     asyncio.run(main())
