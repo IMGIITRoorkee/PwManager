@@ -27,6 +27,7 @@ def main():
           5. Add a password
           6. Get a password
           7. List all sites
+          re. Re-Encrypt
           q. Quit
           """)
     
@@ -57,14 +58,15 @@ def main():
             pm.add_password(site, password)
 
         elif choice == '6' and validate_key_loaded(pm):
-
             site = input("Enter site: ").strip()
             res = pm.get_password(site)
             print(f"Password for {site}: {res}")
             if(res != "Password not found."):
                 pyperclip.copy(pm.get_password(site))
                 print("Password copied to clipboard.")
-
+        elif choice == 're':
+            path = input("Enter another key path(if you dont have a key create one): ").strip()
+            pm.re_encrypt(path)
         elif choice == '7':
             print("Saved Sites:")
             for site in pm.password_dict:
