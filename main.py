@@ -1,80 +1,95 @@
+from database import Database
+from user_handler import UserHandler
 from manager import PasswordManager
 import pyperclip
 
-
-
-
-def validate_key_loaded(pm : PasswordManager):
-    if not pm.keyloaded:
-        print("Key not loaded. Please load a key first.")
-        return False
-    return True
-
 def main():
-    password = {
-        "gmail": "password1",
-        "facebook": "password2",
-        "twitter": "password3"
-    }
-    
-    pm = PasswordManager()
+    db = Database()
+    session = db.get_session()
+    user_handler = UserHandler(session)
 
-    print("""What would you like to do?
-          1. Create a new key
-          2. Load an existing key
-          3. Create a new password file
-          4. Load an existing password file
-          5. Add a password
-          6. Get a password
-          7. List all sites
-          q. Quit
-          """)
-    
-    done = False
-    while not done:
+    print("Welcome to the Multi-User Password Manager!")
+    current_user = None
+
+    while not current_user:
+        print("\n1. Register\n2. Login\nq. Quit")
         choice = input("Enter choice: ").strip().lower()
+
         if choice == '1':
-            path = input("Enter key file path: ").strip()
-            pm.create_key(path)
-        elif choice == '2':
-            path = input("Enter key file path: ").strip()
-            pm.load_key(path)
-        elif choice == '3' and validate_key_loaded(pm):
-            path = input("Enter password file path: ").strip()
-            pm.create_password_file(path, password)
-        elif choice == '4' and validate_key_loaded(pm):
-            path = input("Enter password file path: ").strip()
-            pm.load_password_file(path)
-        elif choice == '5' and validate_key_loaded(pm):
-            site = input("Enter site: ").strip()
+            username = input("Enter username: ").strip()
             password = input("Enter password: ").strip()
-            if pm.validate_strength(password):
-                print("added successfully")
+            try:
+                user_handler.register_user(username, password)
+                print("Registration successful!")
+            except:
+                print("Username already exists. Try a different one.")
+
+        elif choice == '2':
+            username = input("Enter username: ").strip()
+            password = input("Enter password: ").strip()
+            user = user_handler.authenticate_user(username, password)
+            if user:
+                print(f"Welcome, {username}!")
+                current_user = user
             else:
-                print("WARNING: This password is weak, It is recommended to set a stronger password")
-                print("- Password should be more than 8 characters long")
-                print("- Password should have alphanumeric characters, capital letters and special characters")
-            pm.add_password(site, password)
+                print("Invalid credentials. Please try again.")
 
-        elif choice == '6' and validate_key_loaded(pm):
-
-            site = input("Enter site: ").strip()
-            res = pm.get_password(site)
-            print(f"Password for {site}: {res}")
-            if(res != "Password not found."):
-                pyperclip.copy(pm.get_password(site))
-                print("Password copied to clipboard.")
-
-        elif choice == '7':
-            print("Saved Sites:")
-            for site in pm.password_dict:
-                print(site)
         elif choice == 'q':
-            done = True
             print("Goodbye!")
+            return
+
         else:
-            print("Invalid choice. Please try again.")
+            print("Invalid choice. Try again.")
+
+    pm = PasswordManager(session, current_user)
+
+    while True:
+        print("""
+        1. List Available Keys
+        2. Select a Key
+        3. Add a New Key
+        4. Add Password (Using Selected Key)
+        5. Retrieve Password
+        6. List Sites
+        q. Quit
+        """)
+        choice = input("Enter choice: ").strip().lower()
+
+        if choice == '1':
+            pm.list_keys()
+
+        elif choice == '2':
+            keys = pm.list_keys()
+            if keys:
+                key_id = input("Enter the Key ID to select: ").strip()
+                pm.load_key(key_id)
+
+        elif choice == '3':
+            pm.add_new_key()
+
+        elif choice == '4':
+            if not pm.key:
+                print("Please select a key first.")
+                continue
+            site = input("Enter site name: ").strip()
+            password_value = input("Enter password: ").strip()
+            pm.add_password(site, password_value)
+
+        elif choice == '5':
+            site = input("Enter site name to retrieve password: ").strip()
+            password = pm.get_password(site)
+            print(f"Password for {site}: {password}")
+
+        elif choice == '6':
+            pm.list_sites()
+            
+        elif choice == 'q':
+            print("Goodbye!")
+            break
+
+        else:
+            print("Invalid choice. Try again.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

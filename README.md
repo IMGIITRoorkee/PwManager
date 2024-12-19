@@ -10,6 +10,8 @@ A **CLI-based password manager** built in Python for secure password storage and
 /
 ├── main.py      # Entry point for executing the program
 ├── manager.py   # Core logic and functionality
+├── user_handler.py   # User handling
+├── database.py   # Database schema
 ```
 ### Install required dependencies:
 `pip install -r requirements.txt`
@@ -66,7 +68,7 @@ Visit the **python** channel and ping `2Y` for assistance.
 
 4. **Install required dependencies**:  
     ```bash
-    pip install cryptography
+    pip install cryptography sqlalchemy
     ```  
 
 5. **Run the Application**:  
@@ -80,14 +82,14 @@ Visit the **python** channel and ping `2Y` for assistance.
 
 - **Encrypt and Store Passwords**: Securely save your credentials.  
 - **Key Management**: Generate and load encryption keys.  
-- **File-Based Storage**: Organize passwords in a file.  
+- **Database-Based Storage**: Organize passwords in a database.
 
 ---
 
 ## Requirements  
 
 - **Python**: Version 3.x or higher.  
-- **Library**: `cryptography`  
+- **Library**: `cryptography` and `sqlalchemy`
 
 ---
 
@@ -98,41 +100,21 @@ Visit the **python** channel and ping `2Y` for assistance.
     python3 main.py
     ```  
 
-2. **Menu Options**:  
-    - `1`: Create a new encryption key.  
-    - `2`: Load an existing encryption key.  
-    - `3`: Create a new password file.  
-    - `4`: Load an existing password file.  
-    - `5`: Add a new password to the file.  
-    - `6`: Retrieve a password from the file.  
+2. **Menu Options**: 
+
+**Login Menu**
+    - `1`: Register a user.  
+    - `2`: Login using existing user credentials.  
     - `q`: Quit the application.  
 
----
-
-## Example Usage  
-
-### Create a New Key  
-
-```bash
-Enter choice: 1
-Enter key file path: keyfile.key
-```  
-
-### Add a New Password  
-
-```bash
-Enter choice: 5
-Enter site: github
-Enter password: securepassword123
-```  
-
-### Retrieve a Password  
-
-```bash
-Enter choice: 6
-Enter site: github
-Password for github is securepassword123
-```  
+**Application Menu**
+    - `1`: List all existing keys created by a user.  
+    - `2`: Load an existing encryption key.  
+    - `3`: Create a new key.  
+    - `4`: Add a new password to the file.  
+    - `5`: Retrieve a password.  
+    - `6`: List all sites for which password are saved.  
+    - `q`: Quit the application.  
 
 ---
 
