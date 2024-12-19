@@ -27,6 +27,8 @@ def main():
           5. Add a password
           6. Get a password
           7. List all sites
+          11. Add a folder
+          12. Access a folder
           q. Quit
           """)
     
@@ -57,14 +59,19 @@ def main():
             pm.add_password(site, password)
 
         elif choice == '6' and validate_key_loaded(pm):
-
             site = input("Enter site: ").strip()
+            print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '11':
+            name = input("Enter folder name: ").strip()
+            pm.add_folder(name)
+        elif choice == '12':
+            path = input("Enter folder path: ").strip()
+            pm.access_folder(path)
             res = pm.get_password(site)
             print(f"Password for {site}: {res}")
             if(res != "Password not found."):
                 pyperclip.copy(pm.get_password(site))
                 print("Password copied to clipboard.")
-
         elif choice == '7':
             print("Saved Sites:")
             for site in pm.password_dict:
