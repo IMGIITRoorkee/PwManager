@@ -47,6 +47,13 @@ def main():
             pm.load_password_file(path)
         elif choice == '5' and validate_key_loaded(pm):
             site = input("Enter site: ").strip()
+            # Password conditions
+            print("Password must be at least 8 characters long.")
+            print("Password must contain at least one lowercase letter.")
+            print("Password must contain at least one uppercase letter.")
+            print("Password must contain at least one digit.")
+            print("Password must contain at least one special character.")
+            
             password = input("Enter password: ").strip()
             if pm.validate_strength(password):
                 print("added successfully")

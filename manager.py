@@ -1,5 +1,5 @@
 from cryptography.fernet import Fernet
-
+import re
 
 class PasswordManager:
 
@@ -36,9 +36,12 @@ class PasswordManager:
                 self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
 
     def add_password(self, site, password):
-        if site in self.password_dict:  
-            print(f"Warning: A password for the site '{site}' already exists.")  
-            return 
+
+        strength_check = self.check_password_strength(password)
+        if "Weak" in strength_check:
+            print(strength_check)
+            return  # Exit if the password is weak
+
         self.password_dict[site] = password
         if self.password_file is not None:
             with open(self.password_file, 'a+') as f:
@@ -47,27 +50,19 @@ class PasswordManager:
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
-    def validate_strength(self, password):
-        # a password is strong if it has length greater than 8
-        # it has special characters such as !@#$%^&*
-        # it is a mix of letters, numbers
-        SpecialChar = '!@#$%^&*'
-        has_good_length = False
-        has_special_char = False
-        has_numeric_characters = False
-        has_capital_letters = False
-        has_small_letters = False
-        if len(password) > 8: 
-            has_good_length = True
-        for chr in password:
-            if chr in SpecialChar:
-                has_special_char = True
-            if chr.isupper():
-                has_capital_letters = True
-            if chr.islower():
-                has_small_letters = True
-            if chr.isdigit():
-                has_numeric_characters = True
-        return has_numeric_characters and has_good_length and\
-              has_capital_letters and has_special_char and has_small_letters
 
+
+    def check_password_strength(self, password):
+        """Check the strength of a password."""
+        if len(password) < 8:
+            return "Weak: Password must be at least 8 characters long."
+        if not re.search(r"[a-z]", password):
+            return "Weak: Password must contain at least one lowercase letter."
+        if not re.search(r"[A-Z]", password):
+            return "Weak: Password must contain at least one uppercase letter."
+        if not re.search(r"[0-9]", password):
+            return "Weak: Password must contain at least one digit."
+        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+            return "Weak: Password must contain at least one special character."
+        
+        return "Strong: Password meets all criteria."
