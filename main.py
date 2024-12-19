@@ -1,6 +1,7 @@
 from database import Database
 from user_handler import UserHandler
 from manager import PasswordManager
+import pyperclip
 
 def main():
     db = Database()
@@ -81,7 +82,7 @@ def main():
 
         elif choice == '6':
             pm.list_sites()
-
+            
         elif choice == 'q':
             print("Goodbye!")
             break

@@ -13,6 +13,8 @@ A **CLI-based password manager** built in Python for secure password storage and
 ├── user_handler.py   # User handling
 ├── database.py   # Database schema
 ```
+### Install required dependencies:
+`pip install -r requirements.txt`
 
 ---
 
