@@ -1,7 +1,9 @@
 from manager import PasswordManager
 import pyperclip
+import os
+from dotenv import load_dotenv
 
-
+load_dotenv('.env')
 
 
 def validate_key_loaded(pm : PasswordManager):
@@ -22,6 +24,7 @@ def main():
     print("""What would you like to do?
           1. Create a new key
           2. Load an existing key
+          21. Load from the enviroment variable
           3. Create a new password file
           4. Load an existing password file
           5. Add a password
@@ -39,6 +42,9 @@ def main():
         elif choice == '2':
             path = input("Enter key file path: ").strip()
             pm.load_key(path)
+        elif choice == '21':
+            key=os.getenv('KEY')
+            pm.load_key_from_env(key)
         elif choice == '3' and validate_key_loaded(pm):
             path = input("Enter password file path: ").strip()
             pm.create_password_file(path, password)
