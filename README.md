@@ -105,6 +105,7 @@ Visit the **python** channel and ping `2Y` for assistance.
     - `4`: Load an existing password file.  
     - `5`: Add a new password to the file.  
     - `6`: Retrieve a password from the file.  
+    - `c`: Clear the CLI
     - `q`: Quit the application.  
 
 ---
