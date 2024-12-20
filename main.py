@@ -74,6 +74,7 @@ def main():
             print("Saved Sites:")
             for site in pm.password_dict:
                 print(site)
+            print(f"Password for {site}: {pm.get_password(site)}")
         elif choice == 'c': #CHECK CONDITION AND CLEAR THE CLI
             clear_screen()
             print(menu)
