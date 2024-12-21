@@ -1,4 +1,5 @@
 from manager import PasswordManager
+import os
 import pyperclip
 
 
@@ -59,16 +60,13 @@ def main():
         elif choice == '6' and validate_key_loaded(pm):
 
             site = input("Enter site: ").strip()
-            res = pm.get_password(site)
-            print(f"Password for {site}: {res}")
-            if(res != "Password not found."):
-                pyperclip.copy(pm.get_password(site))
-                print("Password copied to clipboard.")
-
+            print(f"Password for {site}: {pm.get_password(site)}")
+        
         elif choice == '7':
             print("Saved Sites:")
             for site in pm.password_dict:
                 print(site)
+                
         elif choice == 'q':
             done = True
             print("Goodbye!")
