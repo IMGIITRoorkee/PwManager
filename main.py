@@ -1,5 +1,7 @@
 from manager import PasswordManager
+import os
 import pyperclip
+
 
 
 
@@ -26,7 +28,7 @@ def main():
           4. Load an existing password file
           5. Add a password
           6. Get a password
-          7. List all sites
+          7. Display password file size
           q. Quit
           """)
     
@@ -59,16 +61,24 @@ def main():
         elif choice == '6' and validate_key_loaded(pm):
 
             site = input("Enter site: ").strip()
+            print(f"Password for {site}: {pm.get_password(site)}")
+        
+        elif choice == '7':
+            if pm.password_file:
+                try:
+                    file_size=os.path.getsize(pm.password_file)
+                    print("Password file size:", file_size,"bytes")
+                except FileNotFoundError:
+                    print("Password file not found.")
+            else:
+                print("No password file loaded.")
+
             res = pm.get_password(site)
             print(f"Password for {site}: {res}")
             if(res != "Password not found."):
                 pyperclip.copy(pm.get_password(site))
                 print("Password copied to clipboard.")
 
-        elif choice == '7':
-            print("Saved Sites:")
-            for site in pm.password_dict:
-                print(site)
         elif choice == 'q':
             done = True
             print("Goodbye!")
