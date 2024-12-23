@@ -1,6 +1,10 @@
 from database import Password, Key
 from cryptography.fernet import Fernet
+
+import re
+
 import os
+
 
 class PasswordManager:
     def __init__(self, session, user):
@@ -24,6 +28,7 @@ class PasswordManager:
         self.session.add(new_key)
         self.session.commit()
         print(f"New key created successfully! Key ID: {new_key.key_id}")
+
 
     def add_password(self, site, password_value):
         if not self.key:
@@ -107,3 +112,4 @@ class PasswordManager:
             print("Stored Sites:")
             for idx, password in enumerate(passwords):
                 print(f"{idx + 1}. {password}")
+
