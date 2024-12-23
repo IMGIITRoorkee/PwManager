@@ -42,6 +42,22 @@ class PasswordManager:
 
     def get_password(self, site):
         return self.password_dict.get(site, "Password not found.")
+
+    def delete_password(self, site):
+        if site in self.password_dict:
+            # Remove from the dictionary
+            del self.password_dict[site]
+            # Update the password file
+            if self.password_file is not None:
+                with open(self.password_file, 'r') as f:
+                    lines = f.readlines()
+                with open(self.password_file, 'w') as f:
+                    for line in lines:
+                        if not line.startswith(site + ":"):  # Skip the line with the site to delete
+                            f.write(line)
+        else:
+            print("Site not found.")
+
     def validate_strength(self, password):
         # a password is strong if it has length greater than 8
         # it has special characters such as !@#$%^&*
@@ -107,3 +123,4 @@ class PasswordManager:
             print("Stored Sites:")
             for idx, password in enumerate(passwords):
                 print(f"{idx + 1}. {password}")
+

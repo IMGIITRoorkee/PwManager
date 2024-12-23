@@ -4,6 +4,7 @@ from manager import PasswordManager
 import pyperclip
 
 def main():
+
     db = Database()
     session = db.get_session()
     user_handler = UserHandler(session)
@@ -53,6 +54,7 @@ def main():
         6. List Sites
         q. Quit
         """)
+
         choice = input("Enter choice: ").strip().lower()
 
         if choice == '1':
@@ -85,8 +87,13 @@ def main():
             print(f"Password for {site}: {password}")
 
         elif choice == '6':
-            pm.list_sites()
-            
+
+            site = input("Enter site: ").strip()
+            print(f"Password for {site}: {pm.get_password(site)}")
+        elif choice == '10':
+            site = input("Enter site to delete password: ").strip()
+            pm.delete_password(site)
+
         elif choice == 'q':
             print("Goodbye!")
             break
