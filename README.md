@@ -83,6 +83,7 @@ Visit the **python** channel and ping `2Y` for assistance.
 - **Encrypt and Store Passwords**: Securely save your credentials.  
 - **Key Management**: Generate and load encryption keys.  
 - **Database-Based Storage**: Organize passwords in a database.
+- **User account management**:Allows login using secret question
 
 ---
 

@@ -10,6 +10,8 @@ class User(Base):
     user_id = Column(Integer, primary_key=True)
     user_name = Column(String, unique=True, nullable=False)
     user_password = Column(String, nullable=False)
+    user_secret_question=Column(String,nullable=False)
+    user_secret_key=Column(String,nullable=False)
 
     key = relationship("Key", back_populates="user")
     passwords = relationship("Password", back_populates="user")
@@ -20,6 +22,7 @@ class Key(Base):
     key_id = Column(Integer, primary_key=True)
     key_value = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    user_secret_key=Column(Integer,nullable=False)
 
     user = relationship("User", back_populates="key")
     passwords = relationship("Password", back_populates="key")
