@@ -16,23 +16,43 @@ def main():
         choice = input("Enter choice: ").strip().lower()
 
         if choice == '1':
+            print("Creating a NEW LOGIN!")
+            print("You are advised to remember your LOGIN Credentials. However in case you forget it, the secret question will help you login.\n")
             username = input("Enter username: ").strip()
             password = input("Enter password: ").strip()
+            secret_question=input("Manually Enter your secret question: ").strip()
+            secret_key=input("Enter the key for secret question: ").strip().lower()
             try:
-                user_handler.register_user(username, password)
+                user_handler.register_user(username, password,secret_question,secret_key)
                 print("Registration successful!")
-            except:
+            except Exception as e:
+                print(e)
                 print("Username already exists. Try a different one.")
 
         elif choice == '2':
-            username = input("Enter username: ").strip()
-            password = input("Enter password: ").strip()
-            user = user_handler.authenticate_user(username, password)
-            if user:
-                print(f"Welcome, {username}!")
-                current_user = user
+            for i in range(3,0,-1):
+                print(f"You have {i} attempts to LOGIN\n")
+                username = input("Enter username: ").strip()
+                password = input("Enter password: ").strip()
+                user = user_handler.authenticate_user(username, password)
+                if user:
+                    print(f"Welcome, {username}!")
+                    current_user = user
+                    break
+                else:
+                    print("Invalid credentials. Please try again.")
             else:
-                print("Invalid credentials. Please try again.")
+                print("Seems like you forgot your LOGIN Credentials :(\n")
+                username=input("Enter username to get secret question: ").strip()
+                print("Here's your secret question, Enter secret key to login")
+                if (user_handler.get_secret_question(username)):
+                    print(user_handler.get_secret_question(username))
+                    key=input("Enter your secret key: ").strip().lower()
+                    user=user_handler.authenticate_user_by_secret_key(username,key)
+                    current_user=user
+                    print(f"Welcome {username}")
+                else:
+                    print("This USER does not exist.")
 
         elif choice == 'q':
             print("Goodbye!")
