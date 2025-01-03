@@ -19,6 +19,9 @@ class PasswordManager:
         with open(path, 'rb') as f:
             self.key = f.read()
         self.keyloaded = True
+    def load_key_from_env(self,key):
+        self.key = key
+        self.keyloaded = True
 
 
     def create_password_file(self, path, initial_values=None):
