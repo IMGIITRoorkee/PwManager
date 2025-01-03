@@ -5,7 +5,7 @@ import select
 import time
 import msvcrt
 
-def get_input_with_timeout(prompt, timeout=5):
+def get_input_with_timeout(prompt, timeout=600):
     print(prompt, end='', flush=True)
     # For Windows
     if sys.platform == 'win32':
