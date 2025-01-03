@@ -3,12 +3,13 @@ import pyperclip
 import sys
 import select
 import time
-import msvcrt
 
-def get_input_with_timeout(prompt, timeout=600):
+
+def get_input_with_timeout(prompt, timeout=60):
     print(prompt, end='', flush=True)
     # For Windows
     if sys.platform == 'win32':
+        import msvcrt
         start_time = time.time()
         input_str = ''
         while True:
