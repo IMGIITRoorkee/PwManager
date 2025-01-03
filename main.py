@@ -68,10 +68,6 @@ def main():
             pm.add_new_key()
 
         elif choice == '4':
-            path = input("Enter password file path: ").strip()
-            pm.load_password_file(path)
-            size = pm.get_file_size(path)
-            print(f"Password file loaded successfully. The size of is {size} bytes.")
             if not pm.key:
                 print("Please select a key first.")
                 continue
