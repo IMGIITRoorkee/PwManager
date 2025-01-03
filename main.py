@@ -1,5 +1,25 @@
 from manager import PasswordManager
 import pyperclip
+import sys
+import select
+import time
+import msvcrt
+
+def get_input_with_timeout(prompt, timeout=600):
+    print(prompt, end='', flush=True)
+    start_time = time.time()
+    input_str = ''
+    while True:
+        if msvcrt.kbhit():
+            char = msvcrt.getwche()
+            if char == '\r':  
+                print()
+                return input_str.strip()
+            input_str += char
+        if time.time() - start_time > timeout:
+            print("\nUser inactive for too long. Closing the application.")
+            return None
+        time.sleep(0.1)
 
 
 
@@ -32,7 +52,12 @@ def main():
     
     done = False
     while not done:
-        choice = input("Enter choice: ").strip().lower()
+        choice = get_input_with_timeout("Enter choice: ")
+        if choice is None:  # Timeout occurred
+            done = True
+            continue
+            
+        choice = choice.strip().lower()
         if choice == '1':
             path = input("Enter key file path: ").strip()
             pm.create_key(path)
