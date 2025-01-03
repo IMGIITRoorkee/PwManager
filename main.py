@@ -5,21 +5,30 @@ import select
 import time
 import msvcrt
 
-def get_input_with_timeout(prompt, timeout=600):
+def get_input_with_timeout(prompt, timeout=5):
     print(prompt, end='', flush=True)
-    start_time = time.time()
-    input_str = ''
-    while True:
-        if msvcrt.kbhit():
-            char = msvcrt.getwche()
-            if char == '\r':  
-                print()
-                return input_str.strip()
-            input_str += char
-        if time.time() - start_time > timeout:
-            print("\nUser inactive for too long. Closing the application.")
-            return None
-        time.sleep(0.1)
+    # For Windows
+    if sys.platform == 'win32':
+        start_time = time.time()
+        input_str = ''
+        while True:
+            if msvcrt.kbhit():
+                char = msvcrt.getwche()
+                if char == '\r':  
+                    print()
+                    return input_str.strip()
+                input_str += char
+            if time.time() - start_time > timeout:
+                print("\nUser inactive for too long. Closing the application.")
+                return None
+            time.sleep(0.1)
+    # For Unix-like systems
+    else:
+        rlist, _, _ = select.select([sys.stdin], [], [], timeout)
+        if rlist:
+            return sys.stdin.readline().strip()
+        print("\nUser inactive for too long. Closing the application.")
+        return None
 
 
 
